@@ -1,0 +1,40 @@
+{
+  "name": "divisist-cookie",
+  "version": "1.0.0",
+  "description": "",
+  "type": "commonjs",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node dist",
+    "dev": "tsx --watch src",
+    "build": "tsc",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "puppeteer-core": "^24.27.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
+    "@types/express": "^5.0.5",
+    "@types/node": "^24.9.2",
+    "eslint": "^9.39.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6",
+    "prettier": "^3.6.2",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.19.0",
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  }
+}
