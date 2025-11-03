@@ -42,6 +42,10 @@ export async function getCookie() {
 
   await page.keyboard.press("Enter");
 
+  await page.waitForSelector(".user-image", {
+    timeout: 5000,
+  });
+
   const cookies = await page.cookies("https://divisist2.ufps.edu.co/");
 
   const sessionCookie = cookies.find((c) => c.name === "ci_session");
