@@ -24,5 +24,10 @@ FROM base AS prod
 COPY --from=prod-deps /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
 COPY package.json .
+
+EXPOSE 3000
+
+VOLUME [ "/app/data" ]
+
 ENTRYPOINT [ "pnpm" ]
 CMD ["start"]

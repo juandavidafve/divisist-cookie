@@ -1,13 +1,12 @@
-import { authenticator } from "otplib";
+import fs from "fs/promises";
 import { Browser, Page } from "puppeteer-core";
 import puppeteer from "puppeteer-extra";
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
 
 import {
   CHROMIUM_EXECUTABLE,
-  GOOGLE_EMAIL,
+  GOOGLE_COOKIES_FILE,
   GOOGLE_PASSWORD,
-  GOOGLE_TOTP_SECRET,
 } from "./config";
 
 const stealth = StealthPlugin();
@@ -20,6 +19,12 @@ export async function getCookie() {
     executablePath: CHROMIUM_EXECUTABLE,
     args: ["--no-sandbox"],
   });
+
+  const googleCookies = JSON.parse(
+    await fs.readFile(GOOGLE_COOKIES_FILE, "utf-8"),
+  );
+
+  await browser.setCookie(...googleCookies);
 
   const page = await browser.newPage();
 
@@ -36,24 +41,13 @@ export async function getCookie() {
     login_google();
   });
 
-  await page.waitForNavigation();
-  await page.locator("input[type=email]").fill(GOOGLE_EMAIL);
-  await page.keyboard.press("Enter");
-
-  const passwordInput = await page.waitForSelector("input[type=password]", {
-    visible: true,
-  });
-
-  await passwordInput?.type(GOOGLE_PASSWORD);
-
-  await page.keyboard.press("Enter");
-
   try {
     await page.waitForSelector(".user-image", {
       timeout: 5000,
     });
   } catch (err) {
-    await handle2StepAuth(page);
+    await login(page);
+
     await page.waitForSelector(".user-image", {
       timeout: 5000,
     });
@@ -70,6 +64,18 @@ export async function getCookie() {
   return sessionCookie.value;
 }
 
+async function login(page: Page) {
+  await forceClick(page, '[data-button-type="multipleChoiceIdentifier"]');
+
+  const passwordInput = await page.waitForSelector("input[type=password]", {
+    visible: true,
+  });
+
+  await passwordInput?.type(GOOGLE_PASSWORD);
+
+  await page.keyboard.press("Enter");
+}
+
 async function forceClick(page: Page, selector: string, timeout = 5000) {
   await page.waitForFunction(
     (selector) => {
@@ -80,6 +86,8 @@ async function forceClick(page: Page, selector: string, timeout = 5000) {
         elem.click();
       }
 
+      console.log(selector, exists);
+
       return exists;
     },
     {
@@ -87,21 +95,4 @@ async function forceClick(page: Page, selector: string, timeout = 5000) {
     },
     selector,
   );
-}
-
-async function handle2StepAuth(page: Page) {
-  try {
-    // If google directly tries to use notification login
-    await forceClick(page, "main div:nth-of-type(2) button", 2000);
-  } catch (err) {}
-
-  await forceClick(page, "[data-challengeid='4']");
-
-  const tokenInput = await page.waitForSelector("#totpPin", {
-    visible: true,
-  });
-
-  await tokenInput?.type(authenticator.generate(GOOGLE_TOTP_SECRET));
-
-  await forceClick(page, "#totpNext");
 }
