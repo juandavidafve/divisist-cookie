@@ -13,6 +13,9 @@ importers:
       express:
         specifier: ^5.1.0
         version: 5.1.0
+      otplib:
+        specifier: ^12.0.1
+        version: 12.0.1
       puppeteer-core:
         specifier: ^24.27.0
         version: 24.27.0
@@ -485,6 +488,36 @@ packages:
     resolution:
       {
         integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==,
+      }
+
+  "@otplib/core@12.0.1":
+    resolution:
+      {
+        integrity: sha512-4sGntwbA/AC+SbPhbsziRiD+jNDdIzsZ3JUyfZwjtKyc/wufl1pnSIaG4Uqx8ymPagujub0o92kgBnB89cuAMA==,
+      }
+
+  "@otplib/plugin-crypto@12.0.1":
+    resolution:
+      {
+        integrity: sha512-qPuhN3QrT7ZZLcLCyKOSNhuijUi9G5guMRVrxq63r9YNOxxQjPm59gVxLM+7xGnHnM6cimY57tuKsjK7y9LM1g==,
+      }
+
+  "@otplib/plugin-thirty-two@12.0.1":
+    resolution:
+      {
+        integrity: sha512-MtT+uqRso909UkbrrYpJ6XFjj9D+x2Py7KjTO9JDPhL0bJUYVu5kFP4TFZW4NFAywrAtFRxOVY261u0qwb93gA==,
+      }
+
+  "@otplib/preset-default@12.0.1":
+    resolution:
+      {
+        integrity: sha512-xf1v9oOJRyXfluBhMdpOkr+bsE+Irt+0D5uHtvg6x1eosfmHCsCC6ej/m7FXiWqdo0+ZUI6xSKDhJwc8yfiOPQ==,
+      }
+
+  "@otplib/preset-v11@12.0.1":
+    resolution:
+      {
+        integrity: sha512-9hSetMI7ECqbFiKICrNa4w70deTUfArtwXykPUvSHWOdzOlfa9ajglu7mNCntlvxycTiOAXkQGwjQCzzDEMRMg==,
       }
 
   "@puppeteer/browsers@2.10.12":
@@ -1968,6 +2001,12 @@ packages:
       }
     engines: { node: ">= 0.8.0" }
 
+  otplib@12.0.1:
+    resolution:
+      {
+        integrity: sha512-xDGvUOQjop7RDgxTQ+o4pOol0/3xSZzawTiPKRrHnQWAy0WjhNs/5HdIDJCrqC4MBynmjXgULc6YfioaxZeFgg==,
+      }
+
   p-limit@3.1.0:
     resolution:
       {
@@ -2498,6 +2537,13 @@ packages:
         integrity: sha512-3/o9z3X0X0fTupwsYvR03pJ/DjWuqqrfwBgTQzdWDiQSm9KitAyz/9WqsT2JQW7KV2m+bC2ol/zqpW37NHxLaA==,
       }
 
+  thirty-two@1.0.2:
+    resolution:
+      {
+        integrity: sha512-OEI0IWCe+Dw46019YLl6V10Us5bi574EvlJEOcAkB29IzQ/mYD1A6RyNHLjZPiHCmuodxvgF6U+vZO1L15lxVA==,
+      }
+    engines: { node: ">=0.2.6" }
+
   to-regex-range@5.0.1:
     resolution:
       {
@@ -2932,6 +2978,29 @@ snapshots:
     dependencies:
       "@jridgewell/resolve-uri": 3.1.2
       "@jridgewell/sourcemap-codec": 1.5.5
+
+  "@otplib/core@12.0.1": {}
+
+  "@otplib/plugin-crypto@12.0.1":
+    dependencies:
+      "@otplib/core": 12.0.1
+
+  "@otplib/plugin-thirty-two@12.0.1":
+    dependencies:
+      "@otplib/core": 12.0.1
+      thirty-two: 1.0.2
+
+  "@otplib/preset-default@12.0.1":
+    dependencies:
+      "@otplib/core": 12.0.1
+      "@otplib/plugin-crypto": 12.0.1
+      "@otplib/plugin-thirty-two": 12.0.1
+
+  "@otplib/preset-v11@12.0.1":
+    dependencies:
+      "@otplib/core": 12.0.1
+      "@otplib/plugin-crypto": 12.0.1
+      "@otplib/plugin-thirty-two": 12.0.1
 
   "@puppeteer/browsers@2.10.12":
     dependencies:
@@ -3807,6 +3876,12 @@ snapshots:
       type-check: 0.4.0
       word-wrap: 1.2.5
 
+  otplib@12.0.1:
+    dependencies:
+      "@otplib/core": 12.0.1
+      "@otplib/preset-default": 12.0.1
+      "@otplib/preset-v11": 12.0.1
+
   p-limit@3.1.0:
     dependencies:
       yocto-queue: 0.1.0
@@ -4168,6 +4243,8 @@ snapshots:
       b4a: 1.7.3
     transitivePeerDependencies:
       - react-native-b4a
+
+  thirty-two@1.0.2: {}
 
   to-regex-range@5.0.1:
     dependencies:
